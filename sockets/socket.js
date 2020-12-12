@@ -2,14 +2,14 @@ const { io } = require('../index');
 
 // Mensajes de Sockets
 io.on('connection', (client) => {
-  console.log('Cliente conectado');
+  console.log('Client connected');
 
   client.on('disconnect', () => {
-    console.log('Cliente desconectado');
+    console.log('Client disconnected');
   });
 
   client.on('message', (payload) => {
-    console.log('Mensaje', payload);
-    io.emit('mensaje', { admin: 'Nuevo mensaje' });
+    console.log('Message', payload);
+    io.emit('message', { admin: 'New Message' });
   });
 });
