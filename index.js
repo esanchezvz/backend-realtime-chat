@@ -17,6 +17,15 @@ require('./sockets/socket');
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 
+// Error handling middleware
+app.use((error, _req, res, _next) => {
+  console.error(error);
+  return res.status(error.status || 500).json({
+    success: false,
+    message: error.message || 'Ocurrió un error. Intenta nuevamente.',
+  });
+});
+
 server.listen(process.env.PORT, async (err) => {
   if (err) throw new Error(err);
 
