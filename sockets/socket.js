@@ -11,6 +11,15 @@ io.on('connection', (client) => {
 
   connectUser(uid);
 
+  // Create private socket channel for user
+  client.join(uid);
+  client.on('message-sent', (payload) => {
+    console.log(payload);
+    // Emit message to receiver privatly
+    io.to(payload.to).emit('message-sent', payload);
+  });
+  // client.to(uid).emit
+
   client.on('disconnect', async () => {
     disconnectUser(uid);
   });
