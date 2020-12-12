@@ -6,6 +6,7 @@ const { signJwt } = require('../utils/jwt');
 /**
  * @path /api/auth/register
  * @method POST
+ * @access Public
  */
 const registerUser = async (req = request, res = response, next) => {
   try {
@@ -33,6 +34,7 @@ const registerUser = async (req = request, res = response, next) => {
 /**
  * @path /api/auth/login
  * @method POST
+ * @access Public
  */
 const login = async (req = request, res = response, next) => {
   try {
@@ -67,6 +69,7 @@ const login = async (req = request, res = response, next) => {
 /**
  * @path /api/auth/token
  * @method GET
+ * @access Private
  */
 const updateToken = async (req = request, res = response, next) => {
   try {
