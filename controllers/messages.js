@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 const Message = require('../models/Message');
 
 /**
- * @path /api/messages/
+ * @path /api/messages/:from
  * @method GET
  * @access Private
  */
