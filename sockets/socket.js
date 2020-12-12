@@ -1,11 +1,17 @@
+const { connectUser, disconnectUser } = require('../controllers/socket');
 const { io } = require('../index');
+const { verifyJwt } = require('../utils/jwt');
 
 // Mensajes de Sockets
 io.on('connection', (client) => {
-  console.log('Client connected');
+  const [isValidToken, uid] = verifyJwt(client.handshake.headers.authorization);
 
-  client.on('disconnect', () => {
-    console.log('Client disconnected');
+  if (!isValidToken) return client.disconnect();
+
+  connectUser(uid);
+
+  client.on('disconnect', async () => {
+    disconnectUser(uid);
   });
 
   //   client.on('message', (payload) => {
