@@ -1,5 +1,6 @@
-const { connectUser, disconnectUser } = require('../controllers/socket');
 const { io } = require('../index');
+
+const { connectUser, disconnectUser } = require('../controllers/socket');
 const { verifyJwt } = require('../utils/jwt');
 
 // Mensajes de Sockets
