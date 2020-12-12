@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const UserSchema = Schema(
   {
@@ -28,6 +29,7 @@ const UserSchema = Schema(
       getters: true,
       transform: function (doc, ret) {
         delete ret._id;
+        delete ret.password;
       },
     },
     toObject: {
@@ -42,5 +44,20 @@ const UserSchema = Schema(
 UserSchema.virtual('uid').get(function () {
   return this._id.toHexString();
 });
+
+// Encrypt password
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// Match user entered password to hashed password in database
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 module.exports = model('User', UserSchema);
