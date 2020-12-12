@@ -12,8 +12,8 @@ const getUsers = async (req = request, res = response, next) => {
     const offset = Number(req.query.offset) || 0;
     const users = await User.find({ _id: { $ne: req.uid } })
       .sort('-online')
-      .limit(20)
-      .skip(offset);
+      .skip(offset)
+      .limit(20);
 
     return res.status(200).json({
       success: true,

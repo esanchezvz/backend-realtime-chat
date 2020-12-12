@@ -24,8 +24,6 @@ const MessageSchema = Schema(
       getters: true,
       transform: function (doc, ret) {
         delete ret._id;
-        delete ret.createdAt;
-        delete ret.updatedAt;
       },
     },
     toObject: {

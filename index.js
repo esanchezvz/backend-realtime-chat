@@ -19,6 +19,7 @@ require('./sockets/socket');
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/messages', require('./routes/messages'));
 
 // Error handling middleware
 app.use((error, _req, res, _next) => {
