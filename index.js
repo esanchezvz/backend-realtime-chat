@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const path = require('path');
 const { dbConnection } = require('./db/config');
 require('dotenv').config();
@@ -8,6 +9,7 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(morgan('dev'));
 
 // Node Server
 const server = require('http').createServer(app);
