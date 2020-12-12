@@ -1,4 +1,5 @@
 const { response, request } = require('express');
+const { validationResult } = require('express-validator');
 
 /**
  * @path /api/auth/register
