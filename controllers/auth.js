@@ -5,6 +5,7 @@ const { signJwt } = require('../utils/jwt');
 
 /**
  * @path /api/auth/register
+ * @method POST
  */
 const registerUser = async (req = request, res = response, next) => {
   try {
@@ -31,6 +32,7 @@ const registerUser = async (req = request, res = response, next) => {
 
 /**
  * @path /api/auth/login
+ * @method POST
  */
 const login = async (req = request, res = response, next) => {
   try {
@@ -50,7 +52,32 @@ const login = async (req = request, res = response, next) => {
     return res.status(200).json({
       success: true,
       message: 'Inicio de sesión exitoso.',
-      data: { token },
+      data: { user, token },
+    });
+  } catch (error) {
+    if (error.message === 'auth/wrong-credentials') {
+      error.message = 'El correo y/o la contraseña no son válidos.';
+      error.status = 401;
+    }
+
+    next(error);
+  }
+};
+
+/**
+ * @path /api/auth/token
+ * @method GET
+ */
+const updateToken = async (req = request, res = response, next) => {
+  try {
+    const token = await signJwt({ uid: req.uid });
+
+    const user = await User.findById(req.uid);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Token actualizado correctamente.',
+      data: { user, token },
     });
   } catch (error) {
     if (error.message === 'auth/wrong-credentials') {
@@ -65,4 +92,5 @@ const login = async (req = request, res = response, next) => {
 module.exports = {
   registerUser,
   login,
+  updateToken,
 };
