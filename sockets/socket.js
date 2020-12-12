@@ -8,8 +8,8 @@ io.on('connection', (client) => {
     console.log('Client disconnected');
   });
 
-  client.on('message', (payload) => {
-    console.log('Message', payload);
-    io.emit('message', { admin: 'New Message' });
-  });
+  //   client.on('message', (payload) => {
+  //     console.log('Message', payload);
+  //     io.emit('message', { admin: 'New Message' });
+  //   });
 });
