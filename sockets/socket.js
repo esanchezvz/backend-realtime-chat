@@ -1,6 +1,10 @@
 const { io } = require('../index');
 
-const { connectUser, disconnectUser } = require('../controllers/socket');
+const {
+  connectUser,
+  disconnectUser,
+  saveMessage,
+} = require('../controllers/socket');
 const { verifyJwt } = require('../utils/jwt');
 
 // Mensajes de Sockets
@@ -13,12 +17,15 @@ io.on('connection', (client) => {
 
   // Create private socket channel for user
   client.join(uid);
-  client.on('message-sent', (payload) => {
-    console.log(payload);
-    // Emit message to receiver privatly
-    io.to(payload.to).emit('message-sent', payload);
+  client.on('message-sent', async (payload) => {
+    try {
+      await saveMessage(payload);
+      // Emit message to receiver privatly
+      io.to(payload.to).emit('message-sent', payload);
+    } catch (error) {
+      console.error(error);
+    }
   });
-  // client.to(uid).emit
 
   client.on('disconnect', async () => {
     disconnectUser(uid);
